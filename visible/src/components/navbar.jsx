@@ -1,13 +1,16 @@
 import React from 'react'
+import logo from '../resources/blockchain.png'
 
 const Navbar = () => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
+          
           <a className="navbar-brand navbar-text" href="#">
+              <img src={logo} width="30" height="30" class="d-inline-block align-top mx-3" alt="logo"/>
               BlockVote
-            </a>
+          </a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -19,7 +22,7 @@ const Navbar = () => {
               
             </ul>
             
-            <button type="button" className="btn btn-outline-light mx-1">CA Login</button>
+            <button type="button" className="btn btn-outline-light mx-1">ECI Login</button>
             <button type="button" className="btn btn-outline-light mx-1">Admin Login</button>
             <button type="button" className="btn btn-outline-light mx-1">Results</button>
             
