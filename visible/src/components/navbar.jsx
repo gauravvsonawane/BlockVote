@@ -8,7 +8,7 @@ const Navbar = () => {
         <div className="container-fluid">
           
           <a className="navbar-brand navbar-text" href="#">
-              <img src={logo} width="30" height="30" class="d-inline-block align-top mx-3" alt="logo"/>
+              <img src={logo} width="32" height="32" class="d-inline-block align-top mx-3" alt="logo"/>
               BlockVote
           </a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
