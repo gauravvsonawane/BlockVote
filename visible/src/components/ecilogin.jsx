@@ -7,14 +7,14 @@ const ecilogin = () => {
             <div className='eci_log_text'>ECI Login</div>
             
             <div className='eci_log_input-box'>
-            <input class="form-control me-2"placeholder='Enter Username' id='eci_username'/>
+            <input className="form-control me-2"placeholder='Enter Username' id='eci_username'/>
             </div>
             <div className='eci_log_input-box'>
-            <input class="form-control me-2" placeholder='Enter Password' id='eci_password' type='password'/>
+            <input className="form-control me-2" placeholder='Enter Password' id='eci_password' type='password'/>
             </div>
-            <div>
+            <div className="btn-mid">
                  <button className='btn btn btn-dark' id='eci_log_in' formAction>LOG IN</button>
-                 </div>
+            </div>
         </form>
     )
 }
