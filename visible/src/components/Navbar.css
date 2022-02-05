@@ -1,0 +1,20 @@
+.btn-outline-light {
+    font-weight: 500;
+    color: #B39DDB;
+    border-color: #B39DDB;
+    background: transparent;
+  }
+  .btn-outline-light:hover{
+    color: #343a40;
+    background: #B39DDB;
+    border-color: #B39DDB;
+  }
+  
+  .navbar {
+    position: sticky;
+    top: 0;
+  }
+  .navbar-text {
+    color:#B39DDB !important;
+    font-weight:500;
+  }
