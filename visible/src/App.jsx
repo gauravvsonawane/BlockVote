@@ -18,14 +18,26 @@ import './components/Adminreg.css'
 
 
 function App() {
-  const [count, setCount] = useState(0)
-  
+  const [components, setComponents] = useState({
+                                        "nav-bar" : true,
+                                        "footer" : true,
+                                        "admin-login" : false,
+                                        "admin-reg" : true,
+                                        "candidate-reg" : false,
+                                        "voter-reg" : false,
+                                        "eci-login" : false,
+                                        "home-page" : false,  
+                                      })
   return (
-    // <div className="App">
     <div>
-      <Navbar/>
-      <Adminreg/>
-      <Footer/>
+      {components["nav-bar"] && <Navbar/>}
+      {components["footer"] && <Footer/>}
+      {components["admin-login"] && <AdminLogin/>}
+      {components["admin-reg"] && <Adminreg/>}
+      {components["candidate-reg"] && false}
+      {components["voter-reg"] && <VoterReg/>}
+      {components["eci-login"] && <EciLogin/>}
+      {components["home-page"] && <Homepage/>}
     </div>
   )
 }
