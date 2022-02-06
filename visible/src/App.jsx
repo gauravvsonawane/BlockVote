@@ -16,15 +16,28 @@ import './components/Ecilogin.css'
 
 
 function App() {
-  const [count, setCount] = useState(0)
-  
+  const [components, setComponents] = useState({
+                                        "nav-bar" : true,
+                                        "footer" : true,
+                                        "admin-login" : false,
+                                        "admin-reg" : false,
+                                        "candidate-reg" : false,
+                                        "voter-reg" : true,
+                                        "eci-login" : false,
+                                        "home-page" : false,  
+                                      })
   return (
     // <div className="App">
     <div>
-      <Navbar/>
-      {/* <Homepage/> */}
-      {/* <VoterReg/> */}
-      <EciLogin/>
+      {components["nav-bar"] && <Navbar/>}
+      {components["footer"] && <Footer/>}
+      {components["admin-login"] && <AdminLogin/>}
+      {components["admin-reg"] && false}
+      {components["candidate-reg"] && false}
+      {components["voter-reg"] && <VoterReg/>}
+      {components["eci-login"] && <EciLogin/>}
+      {components["home-page"] && <Homepage/>}
+      
       <Footer/>
     </div>
   )
