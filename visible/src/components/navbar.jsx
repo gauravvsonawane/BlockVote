@@ -7,7 +7,7 @@ const Navbar = (props) => {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           
-          <a className="navbar-brand navbar-text" href="#">
+          <a className="navbar-brand navbar-text" href="/">
               <img src={logo} width="32" height="32" className="d-inline-block align-top mx-3" alt="logo"/>
               BlockVote
           </a>
@@ -16,15 +16,11 @@ const Navbar = (props) => {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active navbar-text" aria-current="page" href="#">Home</a>
-              </li>
-              
             </ul>
             
-            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback}>ECI Login</button>
-            <button type="button" className="btn btn-outline-light mx-1">Admin Login</button>
-            <button type="button" className="btn btn-outline-light mx-1">Results</button>
+            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_eci}>ECI Login</button>
+            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_admin_log}>Admin Login</button>
+            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_results}>Results</button>
             
           </div>
         </div>

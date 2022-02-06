@@ -1,4 +1,6 @@
-const adminlogin = () => {
+import React from 'react';
+
+const adminlogin = (props) => {
     return (
         <form className='ad_log_container'>
 
@@ -11,7 +13,7 @@ const adminlogin = () => {
             <input className="form-control me-2" placeholder='Enter Password' id='admin_password' type='password'/>
             </div>
             <div className="btn-mid">
-                 <button className='btn btn-dark' id='admin_log_in' formAction>LOG IN</button>
+                 <button className='btn btn-dark' id='admin_log_in' formAction onClick={props.callback_voter_reg}>LOG IN</button>
             </div>
         </form>
     )
