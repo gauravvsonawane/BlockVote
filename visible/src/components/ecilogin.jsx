@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ecilogin = () => {
+const ecilogin = (props) => {
     return (
         <form className='eci_log_container'>
 
@@ -13,7 +13,7 @@ const ecilogin = () => {
             <input className="form-control me-2" placeholder='Enter Password' id='eci_password' type='password'/>
             </div>
             <div className="btn-mid">
-                 <button className='btn btn btn-dark' id='eci_log_in' formAction>LOG IN</button>
+                 <button className='btn btn btn-dark' id='eci_log_in' formAction onClick={props.callback_admin_reg}>LOG IN</button>
             </div>
         </form>
     )
