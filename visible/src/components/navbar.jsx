@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../resources/blockchain.png'
 
-const Navbar = () => {
+const Navbar = (props) => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -22,7 +22,7 @@ const Navbar = () => {
               
             </ul>
             
-            <button type="button" className="btn btn-outline-light mx-1">ECI Login</button>
+            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback}>ECI Login</button>
             <button type="button" className="btn btn-outline-light mx-1">Admin Login</button>
             <button type="button" className="btn btn-outline-light mx-1">Results</button>
             

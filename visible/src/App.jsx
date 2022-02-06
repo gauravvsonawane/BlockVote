@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css' 
 import Navbar from './components/Navbar'
 import Homepage from './components/Homepage'
@@ -18,19 +18,32 @@ import './components/Adminreg.css'
 
 
 function App() {
+
   const [components, setComponents] = useState({
                                         "nav-bar" : true,
                                         "footer" : true,
                                         "admin-login" : false,
-                                        "admin-reg" : true,
+                                        "admin-reg" : false,
                                         "candidate-reg" : false,
                                         "voter-reg" : false,
                                         "eci-login" : false,
-                                        "home-page" : false,  
+                                        "home-page" : true,  
                                       })
+
+                                      const ECIcallback = () => {
+                                        setComponents({"eci-login":true, 
+                                        "home-page":false, 
+                                        "nav-bar" : true,
+                                        "footer" : true});
+                                      }
+
+                                    //   useEffect(() => {
+                                    //     console.log(components);
+                                    //  }, [components]);
+
   return (
     <div>
-      {components["nav-bar"] && <Navbar/>}
+      {components["nav-bar"] && <Navbar callback={ECIcallback}/>}
       {components["footer"] && <Footer/>}
       {components["admin-login"] && <AdminLogin/>}
       {components["admin-reg"] && <Adminreg/>}
