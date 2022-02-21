@@ -1,0 +1,17 @@
+.home-info {
+    background-color: rgba(255,255,255,0.4);
+    padding:10px;
+    margin:10% 15% 10% 15%;
+    color: #343a40;
+    font-weight: bold;
+    font-size:20px;
+    font-family: 'Helvetica', monospace;
+    border-radius: 10px;
+  }
+
+  .btn-mid {
+    display: flex;
+    justify-content: center;
+  }
+
+  

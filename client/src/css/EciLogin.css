@@ -1,0 +1,30 @@
+.eci_log_container {
+    background-color: rgba(255, 255, 255, 0.4);
+    max-width: 400px;
+    margin: 30px auto;
+    overflow: auto;
+    min-height: auto;
+    padding: 20px 30px;
+    border-radius: 10px;
+    font-family: inherit;
+}
+
+.eci_log_text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 5px;
+    font-size: 30px;
+}
+
+.eci_log_input-box {
+    width: auto;
+    height: 40px;
+    margin: 20px;
+    font-size: 17px;
+}
