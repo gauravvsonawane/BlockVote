@@ -11,7 +11,7 @@ import EciLogin from './components/EciLogin'
 import AdminLogin from './components/AdminLogin'
 import Adminreg from './components/AdminReg'
 import Results from './components/Results'
-
+import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
 
@@ -19,6 +19,9 @@ const App = () => {
   const [web3, setWeb3] = useState();
   const [acc, setAcc] = useState();
   const [contract, setContract] = useState();
+
+  const [dbStatus, setDBStatus] = useState("Connecting to Firebase...");
+  const [dbValue, setDBValue] = useState("");
   
   async function connectWeb3(){
     try {
@@ -55,8 +58,24 @@ const App = () => {
     setValue(response)
   }
 
+  const firebaseDemo = () => {
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, `Value`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setDBValue(snapshot.val());
+      } else {
+        setDBValue("No data available");
+      }
+      setDBStatus("Connected!");
+    }).catch((error) => {
+      console.error(error);
+      setDBStatus("An error occured..");
+    });
+  }
+
   useEffect(() => {
     connectWeb3();
+    firebaseDemo();
   },[]);
 
 const [components, setComponents] = useState({
@@ -144,9 +163,21 @@ const VoterRegCallBack = () => {
       />}
 
       {
-        <div className="App" style={{color: `#000000`}}>
-          <strong>If this value is 5, App is connected to truffle.<br/>
-          Value = {value}</strong>
+        <div className="App">
+
+          {/* TRUFFLE */}
+          <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
+            If the value is 5, App is connected to truffle. <br/>
+            <strong>Value = {value} </strong>
+          </div>
+          <br/>
+
+          {/* FIREBASE */}
+          <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
+            Firebase database status : {dbStatus}<br/>
+            Value : {dbValue}
+          </div>
+            
         </div>
       }
       
