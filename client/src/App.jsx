@@ -89,6 +89,7 @@ const [components, setComponents] = useState({
   "home-page" : true,
   "results" : false
 })
+
 const resetComponents = () => {
   setComponents({
     "nav-bar" : false,
@@ -157,8 +158,6 @@ const VoterRegCallBack = () => {
   return (
     <div>
       {components["nav-bar"] && <Navbar 
-      callback_eci={ECIcallback} 
-      callback_admin_log={AdminLogCallback}
       callback_results={ResultsCallBack}
       />}
 
@@ -187,7 +186,11 @@ const VoterRegCallBack = () => {
       {components["candidate-reg"] && false}
       {components["voter-reg"] && <VoterReg />}
       {components["eci-login"] && <EciLogin callback_admin_reg={AdminRegCallBack}/>}
-      {components["home-page"] && <Homepage/>}
+      {components["home-page"] && <Homepage
+                                    callback_eci={ECIcallback} 
+                                    callback_admin_log={AdminLogCallback}
+                                    callback_voter_log={VoterRegCallBack}
+                                    />}
       {components["results"] && <Results/>}
     </div>
   )
