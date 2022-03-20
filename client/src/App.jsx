@@ -3,7 +3,9 @@ import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 import "./App.css";
 
-import Navbar from './components/Navbar'
+import Navbar from './components/Navbar2'
+import Navbar2 from './components/Navbar2'
+import Navbar3 from './components/Navbar3'
 import Homepage from './components/Homepage'
 import Footer from './components/Footer'
 import VoterReg from './components/VoterReg'
@@ -22,6 +24,8 @@ const App = () => {
 
   const [dbStatus, setDBStatus] = useState("Connecting to Firebase...");
   const [dbValue, setDBValue] = useState("");
+
+  const [electionStatus, setElectionStatus] = useState(false);
   
   async function connectWeb3(){
     try {
@@ -79,7 +83,7 @@ const App = () => {
   },[]);
 
 const [components, setComponents] = useState({
-  "nav-bar" : true,
+  "nav-bar" : false,
   "footer" : true,
   "admin-login" : false,
   "admin-reg" : false,
@@ -87,7 +91,8 @@ const [components, setComponents] = useState({
   "voter-reg" : false,
   "eci-login" : false,
   "home-page" : true,
-  "results" : false
+  "results" : false, 
+  "nav-bar2" : true
 })
 
 const resetComponents = () => {
@@ -99,7 +104,8 @@ const resetComponents = () => {
     "candidate-reg" : false,
     "voter-reg" : false,
     "eci-login" : false,
-    "home-page" : false
+    "home-page" : false,
+    "nav-bar2" : false
   });
 };
 
@@ -125,7 +131,7 @@ const HomeCallBack = () => {
   resetComponents();
   setComponents({
     "home-page":true, 
-    "nav-bar" : true,
+    "nav-bar2" : true,
     "footer" : true
   })
 }
@@ -155,10 +161,20 @@ const VoterRegCallBack = () => {
   })
 }
 
+const SwitchElectionStatus = () => {
+  setElectionStatus(!electionStatus);
+}
+
   return (
     <div>
       {components["nav-bar"] && <Navbar 
       callback_results={ResultsCallBack}
+      callback_switchElection={SwitchElectionStatus} 
+      />}
+
+      {components["nav-bar2"] && <Navbar3 
+      // callback_switchElection={SwitchElectionStatus} 
+      // electionStatus={electionStatus}
       />}
 
       {
