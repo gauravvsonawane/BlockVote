@@ -13,6 +13,7 @@ import EciLogin from './components/EciLogin'
 import AdminLogin from './components/AdminLogin'
 import Adminreg from './components/AdminReg'
 import Results from './components/Results'
+import OTPWin from './components/OTPWin'
 import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
@@ -83,16 +84,17 @@ const App = () => {
   },[]);
 
 const [components, setComponents] = useState({
-  "nav-bar" : false,
+  "nav-bar" : true,
   "footer" : true,
   "admin-login" : false,
   "admin-reg" : false,
   "candidate-reg" : false,
   "voter-reg" : false,
   "eci-login" : false,
-  "home-page" : true,
+  "home-page" : false,
   "results" : false, 
-  "nav-bar2" : true
+  "nav-bar2" : false,
+  "otp-win" : true,
 })
 
 const resetComponents = () => {
@@ -105,7 +107,8 @@ const resetComponents = () => {
     "voter-reg" : false,
     "eci-login" : false,
     "home-page" : false,
-    "nav-bar2" : false
+    "nav-bar2" : false,
+    "otp-win" :false
   });
 };
 
@@ -176,6 +179,8 @@ const SwitchElectionStatus = () => {
       // callback_switchElection={SwitchElectionStatus} 
       // electionStatus={electionStatus}
       />}
+
+      {components["otp-win"]&& <OTPWin/>}
 
       {
         <div className="App">
