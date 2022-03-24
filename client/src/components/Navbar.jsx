@@ -19,8 +19,8 @@ const Navbar = (props) => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
             
-            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_eci}>ECI Login</button>
-            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_admin_log}>Admin Login</button>
+            {/* <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_eci}>ECI Login</button>
+            <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_admin_log}>Admin Login</button> */}
             <button type="button" className="btn btn-outline-light mx-1" onClick={props.callback_results}>Results</button>
             
           </div>

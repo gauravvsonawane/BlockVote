@@ -4,6 +4,8 @@ import getWeb3 from "./getWeb3";
 import "./App.css";
 
 import Navbar from './components/Navbar'
+import Navbar2 from './components/Navbar2'
+import Navbar3 from './components/Navbar3'
 import Homepage from './components/Homepage'
 import Footer from './components/Footer'
 import VoterReg from './components/VoterReg'
@@ -11,10 +13,11 @@ import EciLogin from './components/EciLogin'
 import AdminLogin from './components/AdminLogin'
 import Adminreg from './components/AdminReg'
 import Results from './components/Results'
+import OTPWin from './components/OTPWin'
 import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
-
+  var flag = 1;
   const [value, setValue] = useState(0);
   const [web3, setWeb3] = useState();
   const [acc, setAcc] = useState();
@@ -22,6 +25,8 @@ const App = () => {
 
   const [dbStatus, setDBStatus] = useState("Connecting to Firebase...");
   const [dbValue, setDBValue] = useState("");
+
+  const [electionStatus, setElectionStatus] = useState(false);
   
   async function connectWeb3(){
     try {
@@ -41,6 +46,7 @@ const App = () => {
         deployedNetwork && deployedNetwork.address,
       );
 
+
       transact(instance, accounts);
   
     } catch(error){
@@ -53,8 +59,12 @@ const App = () => {
 
   async function transact(instance, accounts){
     await instance.methods.set(5).send({ from: accounts[0] });
-
+      await instance.methods.setmap("shyam", 35000).send({ from: accounts[0] });
+    
     const response = await instance.methods.get().call();
+    const resp = await instance.methods.getMap().call();
+    console.log(resp);
+    alert(resp);
     setValue(response)
   }
 
@@ -87,8 +97,11 @@ const [components, setComponents] = useState({
   "voter-reg" : false,
   "eci-login" : false,
   "home-page" : true,
-  "results" : false
+  "results" : false, 
+  "nav-bar2" : false,
+  "otp-win" : true,
 })
+
 const resetComponents = () => {
   setComponents({
     "nav-bar" : false,
@@ -98,11 +111,16 @@ const resetComponents = () => {
     "candidate-reg" : false,
     "voter-reg" : false,
     "eci-login" : false,
-    "home-page" : false
+    "home-page" : false,
+    "nav-bar2" : false,
+    "otp-win" :false
   });
 };
 
 const ECIcallback = () => {
+  /*
+    * 
+  */ 
   resetComponents();
   setComponents({
     "eci-login":true,  
@@ -154,29 +172,38 @@ const VoterRegCallBack = () => {
   })
 }
 
+const SwitchElectionStatus = () => {
+  setElectionStatus(!electionStatus);
+}
+
   return (
     <div>
-      {components["nav-bar"] && <Navbar 
-      callback_eci={ECIcallback} 
-      callback_admin_log={AdminLogCallback}
+      {components["nav-bar"] && <Navbar
       callback_results={ResultsCallBack}
       />}
+
+      {/* {components["nav-bar2"] && <Navbar3 
+      // callback_switchElection={SwitchElectionStatus} 
+      // electionStatus={electionStatus}
+      />} */}
+
+      {/* {components["otp-win"]&& <OTPWin/>} */}
 
       {
         <div className="App">
 
           {/* TRUFFLE */}
-          <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
+          {/* <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
             If the value is 5, App is connected to truffle. <br/>
             <strong>Value = {value} </strong>
           </div>
-          <br/>
+          <br/> */}
 
           {/* FIREBASE */}
-          <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
+          {/* <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
             Firebase database status : {dbStatus}<br/>
             Value : {dbValue}
-          </div>
+          </div> */}
             
         </div>
       }
@@ -187,7 +214,11 @@ const VoterRegCallBack = () => {
       {components["candidate-reg"] && false}
       {components["voter-reg"] && <VoterReg />}
       {components["eci-login"] && <EciLogin callback_admin_reg={AdminRegCallBack}/>}
-      {components["home-page"] && <Homepage/>}
+      {components["home-page"] && <Homepage
+                                    callback_eci={ECIcallback} 
+                                    callback_admin_log={AdminLogCallback}
+                                    callback_voter_log={VoterRegCallBack}
+                                    />}
       {components["results"] && <Results/>}
     </div>
   )
