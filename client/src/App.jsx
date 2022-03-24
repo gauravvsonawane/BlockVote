@@ -3,7 +3,7 @@ import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 import "./App.css";
 
-import Navbar from './components/Navbar2'
+import Navbar from './components/Navbar'
 import Navbar2 from './components/Navbar2'
 import Navbar3 from './components/Navbar3'
 import Homepage from './components/Homepage'
@@ -17,7 +17,7 @@ import OTPWin from './components/OTPWin'
 import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
-
+  var flag = 1;
   const [value, setValue] = useState(0);
   const [web3, setWeb3] = useState();
   const [acc, setAcc] = useState();
@@ -46,6 +46,7 @@ const App = () => {
         deployedNetwork && deployedNetwork.address,
       );
 
+
       transact(instance, accounts);
   
     } catch(error){
@@ -58,8 +59,12 @@ const App = () => {
 
   async function transact(instance, accounts){
     await instance.methods.set(5).send({ from: accounts[0] });
-
+      await instance.methods.setmap("shyam", 35000).send({ from: accounts[0] });
+    
     const response = await instance.methods.get().call();
+    const resp = await instance.methods.getMap().call();
+    console.log(resp);
+    alert(resp);
     setValue(response)
   }
 
@@ -91,7 +96,7 @@ const [components, setComponents] = useState({
   "candidate-reg" : false,
   "voter-reg" : false,
   "eci-login" : false,
-  "home-page" : false,
+  "home-page" : true,
   "results" : false, 
   "nav-bar2" : false,
   "otp-win" : true,
@@ -113,6 +118,9 @@ const resetComponents = () => {
 };
 
 const ECIcallback = () => {
+  /*
+    * 
+  */ 
   resetComponents();
   setComponents({
     "eci-login":true,  
@@ -134,7 +142,7 @@ const HomeCallBack = () => {
   resetComponents();
   setComponents({
     "home-page":true, 
-    "nav-bar2" : true,
+    "nav-bar" : true,
     "footer" : true
   })
 }
@@ -170,33 +178,32 @@ const SwitchElectionStatus = () => {
 
   return (
     <div>
-      {components["nav-bar"] && <Navbar 
+      {components["nav-bar"] && <Navbar
       callback_results={ResultsCallBack}
-      callback_switchElection={SwitchElectionStatus} 
       />}
 
-      {components["nav-bar2"] && <Navbar3 
+      {/* {components["nav-bar2"] && <Navbar3 
       // callback_switchElection={SwitchElectionStatus} 
       // electionStatus={electionStatus}
-      />}
+      />} */}
 
-      {components["otp-win"]&& <OTPWin/>}
+      {/* {components["otp-win"]&& <OTPWin/>} */}
 
       {
         <div className="App">
 
           {/* TRUFFLE */}
-          <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
+          {/* <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
             If the value is 5, App is connected to truffle. <br/>
             <strong>Value = {value} </strong>
           </div>
-          <br/>
+          <br/> */}
 
           {/* FIREBASE */}
-          <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
+          {/* <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
             Firebase database status : {dbStatus}<br/>
             Value : {dbValue}
-          </div>
+          </div> */}
             
         </div>
       }
