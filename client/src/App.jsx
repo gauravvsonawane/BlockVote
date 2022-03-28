@@ -64,7 +64,6 @@ const App = () => {
     const response = await instance.methods.get().call();
     const resp = await instance.methods.getMap().call();
     console.log(resp);
-    alert(resp);
     setValue(response)
   }
 
@@ -96,7 +95,7 @@ const [components, setComponents] = useState({
   "candidate-reg" : false,
   "voter-reg" : false,
   "eci-login" : false,
-  "home-page" : true,
+  "home-page" : false,
   "results" : false, 
   "nav-bar2" : false,
   "otp-win" : true,
@@ -187,23 +186,23 @@ const SwitchElectionStatus = () => {
       // electionStatus={electionStatus}
       />} */}
 
-      {/* {components["otp-win"]&& <OTPWin/>} */}
+      {components["otp-win"]&& <OTPWin/>}
 
       {
         <div className="App">
 
           {/* TRUFFLE */}
-          {/* <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
+          <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
             If the value is 5, App is connected to truffle. <br/>
             <strong>Value = {value} </strong>
           </div>
-          <br/> */}
+          <br/>
 
           {/* FIREBASE */}
-          {/* <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
+          <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
             Firebase database status : {dbStatus}<br/>
             Value : {dbValue}
-          </div> */}
+          </div>
             
         </div>
       }
