@@ -1,6 +1,6 @@
 .eci_log_container {
     background-color: rgba(255, 255, 255, 0.4);
-    max-width: 400px;
+    max-width: 60%;
     margin: 30px auto;
     overflow: auto;
     min-height: auto;
@@ -9,7 +9,7 @@
     font-family: inherit;
 }
 
-.eci_log_text {
+.eci_log_heading_text {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,9 +22,14 @@
     font-size: 30px;
 }
 
-.eci_log_input-box {
-    width: auto;
+.eci_log_text {
     height: 40px;
-    margin: 20px;
-    font-size: 17px;
+    margin-top: 10px;
+    font-size: 18px;
+}
+.eci_log_input-box {
+    width: 95%;
+    height: 40px;
+    margin: 10px;
+    font-size: 18px;
 }

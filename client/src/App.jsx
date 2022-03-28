@@ -17,7 +17,7 @@ import OTPWin from './components/OTPWin'
 import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
-  var flag = 1;
+  
   const [value, setValue] = useState(0);
   const [web3, setWeb3] = useState();
   const [acc, setAcc] = useState();
@@ -59,7 +59,7 @@ const App = () => {
 
   async function transact(instance, accounts){
     await instance.methods.set(5).send({ from: accounts[0] });
-      await instance.methods.setmap("shyam", 35000).send({ from: accounts[0] });
+    await instance.methods.setmap("shyam", 35000).send({ from: accounts[0] });
     
     const response = await instance.methods.get().call();
     const resp = await instance.methods.getMap().call();
@@ -83,7 +83,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    connectWeb3();
+    //connectWeb3();
     firebaseDemo();
   },[]);
 
@@ -186,7 +186,7 @@ const SwitchElectionStatus = () => {
       // electionStatus={electionStatus}
       />} */}
 
-      {components["otp-win"]&& <OTPWin/>}
+      {/*components["otp-win"]&& <OTPWin/>*/}
 
       {
         <div className="App">
@@ -207,7 +207,7 @@ const SwitchElectionStatus = () => {
         </div>
       }
       
-      {components["footer"] && <Footer/>}
+      {/* {components["footer"] && <Footer/>}
       {components["admin-login"] && <AdminLogin callback_voter_reg={VoterRegCallBack}/>}
       {components["admin-reg"] && <Adminreg/>}
       {components["candidate-reg"] && false}
@@ -218,7 +218,8 @@ const SwitchElectionStatus = () => {
                                     callback_admin_log={AdminLogCallback}
                                     callback_voter_log={VoterRegCallBack}
                                     />}
-      {components["results"] && <Results/>}
+      {components["results"] && <Results/>} */}
+      <EciLogin/>
     </div>
   )
 }
