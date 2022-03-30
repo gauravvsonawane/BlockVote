@@ -7,12 +7,38 @@ struct Admin{
     string walletKey;
 }
 
+struct Voter {
+    string name;
+    string mobileNo;
+    string homeAddress;
+    string aadharCardNo;
+    string voterId;
+    string walletKey;
+    bool isVoted;
+}
+
+struct Candidate {
+    string name;
+    string mobileNo;
+    string homeAddress;
+    string aadharCardNo;
+    string voterId;
+    string walletKey;
+    string politicalParty;
+    uint256 votes;
+}
+
 contract BlockVote{
     /* Global Variables START. */
-    Admin public  ECI = Admin({name:"ECI_Official", mobileNo:"1234567890", walletKey:"0xDb29b8896B08f58c5e3487c3EC4CfCb576b4F983"});
-    
+    Admin public ECI = Admin({name:"ECI_Official", mobileNo:"1234567890", walletKey:"0xB663Fde35c596E597A5660de6728b4bC302cb677"});
+    string voterId_main="";
     Admin[] public Admins;
+    Voter[] public Voters;
     mapping (string=>Admin) public mapWalletKey2Admin;
+    // walletKey : voterId
+    mapping(string=>string) public map_walletKey_voterid;
+    // voterid : Voter;
+    mapping(string=>Voter) public map_voterid_details;
     string votingPhase = "preVoting";
     /* Global Variables END. */
 
@@ -74,9 +100,59 @@ contract BlockVote{
     /* Admin Functions END. */
 
     /* Voter Functions START. */
+    
+    function addVoter(string memory _name, string memory _mobileNo, string memory _homeAddress,
+     string memory _aadharCardNo, string memory _voterId, string memory _walletKey) public {
+        Voter memory newVoter = Voter({
+                    name:_name, 
+                    mobileNo:_mobileNo,
+                    homeAddress:_homeAddress,
+                    aadharCardNo:_aadharCardNo,
+                    voterId:_voterId,
+                    walletKey:_walletKey,
+                    isVoted:false
+        });
+        if(!isVoterRegistered(newVoter)) {
+            Voters.push(newVoter);
+            map_voterid_details[_walletKey] = newVoter;
+            map_walletKey_voterid[_walletKey] = _voterId;
+        }
+        
+    }
+
+    function hasVoted(string memory _voterid) public view returns(bool){
+        return map_voterid_details[_voterid].isVoted;
+    }
+
+    function isVoterRegistered(Voter memory item) public view returns(bool) {
+        if(!areStringsEqual(map_voterid_details[item.voterId].name,"")) return true;
+        else return false;
+    }
+
+    function authenticateVoter(string memory _walletKey) public returns(bool) {
+        if(!areStringsEqual(map_voterid_details[getVoterId(_walletKey)].name,"")) return true;
+        else return false;
+    }
+
+    function getVoterId(string memory _walletKey) public returns(string memory) {
+        voterId_main = map_walletKey_voterid[_walletKey];
+        return voterId_main;
+    }
+
+    function setVoterId(string memory _voterid) public {
+        voterId_main = _voterid;
+    }
+
+    function voterLength() public view returns(uint) {
+        return Voters.length;
+    }
+
     /* Voter Functions END. */
     
     /* Candidate Functions START. */
+
+    
+
     /* Candidate Functions END. */
 
     /* Utility Functions START. */
