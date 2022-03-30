@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+//import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 import "./App.css";
 
@@ -27,6 +27,8 @@ const App = () => {
   const [dbValue, setDBValue] = useState("");
 
   const [electionStatus, setElectionStatus] = useState(false);
+
+  const SimpleStorageContract =1;
   
   async function connectWeb3(){
     try {
@@ -47,11 +49,11 @@ const App = () => {
       );
 
 
-      transact(instance, accounts);
+      //transact(instance, accounts);
   
     } catch(error){
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `1Failed to load web3, accounts, or contract. Check console for details.`,
       );
       console.error(error);
     }
@@ -190,14 +192,6 @@ const SwitchElectionStatus = () => {
 
       {
         <div className="App">
-
-          {/* TRUFFLE */}
-          <div  style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}} >
-            If the value is 5, App is connected to truffle. <br/>
-            <strong>Value = {value} </strong>
-          </div>
-          <br/>
-
           {/* FIREBASE */}
           <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
             Firebase database status : {dbStatus}<br/>
@@ -221,6 +215,7 @@ const SwitchElectionStatus = () => {
       {components["results"] && <Results/>} */}
       <EciLogin/>
     </div>
+
   )
 }
 
