@@ -103,6 +103,11 @@ contract BlockVote{
         return Admins;
     }
 
+    function authenticateAdmin(string memory _walletKey) public view returns(bool) {
+        if(!areStringsEqual(mapWalletKey2Admin[_walletKey].name,"")) return true;
+        else return false;
+    }
+
     /* ECI Functions END. */
 
     /* Admin Functions START. */

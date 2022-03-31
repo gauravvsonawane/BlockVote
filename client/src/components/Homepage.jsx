@@ -10,7 +10,29 @@ const Homepage = (props) => {
             props.callback_eci();
         }
         else {
-            alert("User isn't authenticated ECI official!");
+            alert("User isn't authenticated ECI official! Please try switching accounts.");
+        }
+    }
+
+    const VoterLogin_click = async(e) => {
+        e.preventDefault();
+        const authenticated = await props.Web3States.contractInst.methods.authenticateVoter(props.Web3States.accounts[0]).call();
+        if(authenticated) {
+            props.callback_voter_log();
+        }
+        else {
+            alert("User isn't registered, please register as Voter or Candidate!");
+        }
+    }
+
+    const AdminLogin_click = async(e) => {
+        e.preventDefault();
+        const authenticated = await props.Web3States.contractInst.methods.authenticateAdmin(props.Web3States.accounts[0]).call();
+        if(authenticated) {
+            props.callback_admin_log();
+        }
+        else {
+            alert("User isn't registered, please ask ECI official to register you!");
         }
     }
     return (
@@ -28,8 +50,8 @@ const Homepage = (props) => {
 
                 <div className="d-flex justify-content-center">
                 <button type="button" className="btn btn-dark mx-4 my-4" onClick={ECILogin_click}>ECI Login</button>
-                <button type="button" className="btn btn-dark mx-4 my-4" onClick={props.callback_voter_log}>Voter Login</button>
-                <button type="button" className="btn btn-dark mx-4 my-4" onClick={props.callback_admin_log}>Admin Login</button>
+                <button type="button" className="btn btn-dark mx-4 my-4" onClick={VoterLogin_click}>Voter Login</button>
+                <button type="button" className="btn btn-dark mx-4 my-4" onClick={AdminLogin_click}>Admin Login</button>
             </div>
             </div>
         </div>
