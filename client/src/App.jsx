@@ -14,60 +14,39 @@ import AdminLogin from './components/AdminLogin'
 import Adminreg from './components/AdminReg'
 import Results from './components/Results'
 import OTPWin from './components/OTPWin'
+import BlockVote from "./contracts/BlockVote.json";
 import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
   
-  const [value, setValue] = useState(0);
-  const [web3, setWeb3] = useState();
-  const [acc, setAcc] = useState();
-  const [contract, setContract] = useState();
-
   const [dbStatus, setDBStatus] = useState("Connecting to Firebase...");
   const [dbValue, setDBValue] = useState("");
 
   const [electionStatus, setElectionStatus] = useState(false);
+  const [Web3States, setWeb3States] = useState();
 
-  const SimpleStorageContract =1;
-  
-  async function connectWeb3(){
+
+  const getAndSetWeb3 = async() =>{
+
     try {
-      // Get network provider and web3 instance.
-      const web3 = await getWeb3();
-      // setWeb3(web3);
-  
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
-      // setAcc(accounts);
-  
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
-      const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
-        deployedNetwork && deployedNetwork.address,
-      );
+        const w3 = await getWeb3();
+        const acc = await w3.eth.getAccounts();
+        const networkId = await w3.eth.net.getId();
+        const deployedNetwork = BlockVote.networks[networkId];
+        const instance = new w3.eth.Contract(BlockVote.abi, deployedNetwork && deployedNetwork.address);
 
+        setWeb3States({web3:w3, accounts:acc, contractInst:instance});
+        
 
-      //transact(instance, accounts);
+      } catch(error){
+        alert('Failed to load web3, accounts, or contract. Check console for details.');
+        console.error(error);
+      }
+}
   
-    } catch(error){
-      alert(
-        `1Failed to load web3, accounts, or contract. Check console for details.`,
-      );
-      console.error(error);
-    }
-  }
+ 
 
-  async function transact(instance, accounts){
-    await instance.methods.set(5).send({ from: accounts[0] });
-    await instance.methods.setmap("shyam", 35000).send({ from: accounts[0] });
-    
-    const response = await instance.methods.get().call();
-    const resp = await instance.methods.getMap().call();
-    console.log(resp);
-    setValue(response)
-  }
+  
 
   const firebaseDemo = () => {
     const dbRef = ref(getDatabase());
@@ -85,7 +64,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    //connectWeb3();
+    getAndSetWeb3();
     firebaseDemo();
   },[]);
 
@@ -97,10 +76,10 @@ const [components, setComponents] = useState({
   "candidate-reg" : false,
   "voter-reg" : false,
   "eci-login" : false,
-  "home-page" : false,
+  "home-page" : true,
   "results" : false, 
   "nav-bar2" : false,
-  "otp-win" : true,
+  "otp-win" : false,
 })
 
 const resetComponents = () => {
@@ -119,9 +98,7 @@ const resetComponents = () => {
 };
 
 const ECIcallback = () => {
-  /*
-    * 
-  */ 
+  
   resetComponents();
   setComponents({
     "eci-login":true,  
@@ -200,20 +177,20 @@ const SwitchElectionStatus = () => {
             
         </div>
       }
-      
-      {/* {components["footer"] && <Footer/>}
+      {components["footer"] && <Footer/>}
       {components["admin-login"] && <AdminLogin callback_voter_reg={VoterRegCallBack}/>}
       {components["admin-reg"] && <Adminreg/>}
       {components["candidate-reg"] && false}
-      {components["voter-reg"] && <VoterReg />}
-      {components["eci-login"] && <EciLogin callback_admin_reg={AdminRegCallBack}/>}
       {components["home-page"] && <Homepage
                                     callback_eci={ECIcallback} 
                                     callback_admin_log={AdminLogCallback}
                                     callback_voter_log={VoterRegCallBack}
+                                    Web3States={Web3States}
                                     />}
-      {components["results"] && <Results/>} */}
-      <EciLogin/>
+      {components["results"] && <Results/>}
+      {components["voter-reg"] && <VoterReg />}
+      {components["eci-login"] && <EciLogin Web3States={Web3States}/>}
+      
     </div>
 
   )

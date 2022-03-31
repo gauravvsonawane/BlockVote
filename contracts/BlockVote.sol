@@ -68,6 +68,10 @@ contract BlockVote{
         return addAdminState;
     }
 
+    function authenticateECI(string memory _walletKey) public view returns(bool) {
+        return areStringsEqual(_walletKey, ECI.walletKey);
+    }
+
     // Add an admin to the blockchain.
     function addAdmin(string memory ECI_Key,string memory adName, string memory adMoNo, string memory adEthKey) public{
         resetAddAdminState();
@@ -256,6 +260,10 @@ contract BlockVote{
     /* Utility Functions START. */
     function areStringsEqual(string memory S1, string memory S2) public pure returns(bool){
         return keccak256(bytes(S1)) == keccak256(bytes(S2));
+    }
+
+    function sampleValue() public pure returns(uint){
+        return 5;
     }
     /* Utility Functions END. */
 }

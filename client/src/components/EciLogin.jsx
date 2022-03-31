@@ -11,7 +11,7 @@ const Ecilogin = (props) => {
     const [AdminEthKey, setAdminEthKey] = useState('');
 
     const [Web3States, setWeb3States] = useState({
-        web3:null, accounts:null, contractInst:null
+        web3:props.Web3States.web3, accounts:props.Web3States.accounts, contractInst:props.Web3States.contractInst
     });
 
     const changeAdminName = (e) => {
@@ -24,26 +24,7 @@ const Ecilogin = (props) => {
         setAdminEthKey(e.target.value);
     }
 
-    useEffect(() => {
-        getAndSetWeb3();
-      },[]);
-
-    const getAndSetWeb3 = async() =>{
-
-        try {
-            const w3 = await getWeb3();
-            const acc = await w3.eth.getAccounts();
-            const networkId = await w3.eth.net.getId();
-            const deployedNetwork = BlockVote.networks[networkId];
-            const instance = new w3.eth.Contract(BlockVote.abi, deployedNetwork && deployedNetwork.address);
-
-            setWeb3States({web3:w3, accounts:acc, contractInst:instance});
-
-          } catch(error){
-            alert('Failed to load web3, accounts, or contract. Check console for details.');
-            console.error(error);
-          }
-    }
+    
 
     const addAdminClick = (e) => {
         e.preventDefault();
