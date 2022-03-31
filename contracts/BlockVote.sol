@@ -26,6 +26,7 @@ struct Candidate {
     string walletKey;
     string politicalParty;
     uint256 votes;
+    string symbolUrl;
 }
 
 contract BlockVote{
@@ -34,12 +35,16 @@ contract BlockVote{
     string voterId_main="";
     Admin[] public Admins;
     Voter[] public Voters;
+    Candidate[] public Candidates;
+    string[] public candidate_names;
     mapping (string=>Admin) public mapWalletKey2Admin;
     // walletKey : voterId
     mapping(string=>string) public map_walletKey_voterid;
     // voterid : Voter;
     mapping(string=>Voter) public map_voterid_details;
-    string votingPhase = "preVoting";
+    // wallet address : Candidate
+    mapping(string=>Candidate) public candidatesMap;
+    string votingPhase = "preVoting"; // Voting, Result
     /* Global Variables END. */
 
     /* ECI Functions START. */
@@ -147,13 +152,106 @@ contract BlockVote{
         return Voters.length;
     }
 
+    function getVoterMobileNumber(string memory _voterid) public view returns(string memory) {
+        return map_voterid_details[_voterid].mobileNo;
+    }
+
     /* Voter Functions END. */
     
     /* Candidate Functions START. */
+    function addCandidate(string memory _name, string memory _mobileNo, string memory _homeAddress,
+     string memory _aadharCardNo, string memory _voterId, string memory _walletKey, string memory _politicalParty, string memory _symbolUrl) public {
+        Candidate memory newCandidate = Candidate({
+                    name:_name, 
+                    mobileNo:_mobileNo,
+                    homeAddress:_homeAddress,
+                    aadharCardNo:_aadharCardNo,
+                    voterId:_voterId,
+                    walletKey:_walletKey,
+                    politicalParty:_politicalParty,
+                    votes: 0,
+                    symbolUrl: _symbolUrl
+        });
+        if(!isCandidateRegistered(_walletKey)) {
+            Candidates.push(newCandidate);
+            candidatesMap[_walletKey] = newCandidate;
+            addVoter( _name, _mobileNo,  _homeAddress,
+                _aadharCardNo, _voterId,  _walletKey);
+        }   
+    }
 
+    function isCandidateRegistered(string memory _walletKey) public view returns(bool){
+        if(!areStringsEqual(candidatesMap[_walletKey].name,""))return true;
+        else return false;
+    }
+
+    function getCandidates() public returns(string[] memory) {
+        for(uint256 i=0;i<Candidates.length;i++) {
+        candidate_names.push(Candidates[i].name);
+        }
+        return candidate_names;
+    }
     
 
     /* Candidate Functions END. */
+
+    /* Results Functions START */
+    /* returns (candidates, votes, symbolUrls), receives object with 3 keys (0 : candidates array, 1 : votes array, 2: symbolUrls array) */
+    
+    string[] public _candidates;
+    uint256[] public _votes;
+    string[] public _symbolUrls;
+    function getResults() public returns(string[] memory, uint256[] memory, string[] memory) {
+        if(areStringsEqual(votingPhase, "Result")){
+            for(uint256 i=0;i<Candidates.length;i++) {
+                _candidates.push(Candidates[i].name);
+                _votes.push(Candidates[i].votes);
+                _symbolUrls.push(Candidates[i].symbolUrl);
+            }    
+        }
+        return (_candidates, _votes, _symbolUrls);
+    }
+    /* Results Functions END */
+
+    /* Voting Functions START */ 
+    
+    function vote(string memory _voterId, string memory _walletKey, uint256 choice) public returns(string memory) {
+        if(areStringsEqual(map_voterid_details[_voterId].walletKey, _walletKey)) {
+            if(!map_voterid_details[_voterId].isVoted) {
+                Candidates[choice].votes++;
+                string memory temp_walletKey = Candidates[choice].walletKey;
+                candidatesMap[temp_walletKey].votes++;
+                map_voterid_details[_voterId].isVoted = true;
+                for(uint256 i=0;i<Voters.length;i++) {
+                    if(areStringsEqual(Voters[i].voterId, _voterId)){
+                        Voters[i].isVoted = true;
+                        break;
+                    }
+                }
+                return "Vote casted successfully!";
+            }
+            return "Voter has already voted!";
+        }
+        return "Could not cast a vote, Voter not registered! (try changing account on metamask)";
+    }
+
+    function voteThroughAdmin(string memory _voterId, uint256 choice) public returns(string memory) {
+        if(!map_voterid_details[_voterId].isVoted) {
+            Candidates[choice].votes++;
+            string memory temp_walletKey = Candidates[choice].walletKey;
+            candidatesMap[temp_walletKey].votes++;
+            map_voterid_details[_voterId].isVoted = true;
+            for(uint256 i=0;i<Voters.length;i++) {
+                if(areStringsEqual(Voters[i].voterId, _voterId)){
+                    Voters[i].isVoted = true;
+                    break;
+                }
+            }
+            return "Vote casted successfully!";
+        }
+        return "Voter has already voted!";
+    }
+    /* Voting Functions END */ 
 
     /* Utility Functions START. */
     function areStringsEqual(string memory S1, string memory S2) public pure returns(bool){
