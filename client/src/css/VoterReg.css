@@ -1,9 +1,24 @@
 .voter-reg-box {
     background-color: rgba(255,255,255,0.4);
     padding:1% 3% 1% 3%;
-    margin:5% 25% 0% 25%;
+    margin:5% 5% 3% 5%;
     color: #343a40;
     
+    flex: 1;
+    font-weight: bold;
+    font-size:20px;
+    font-family: 'Helvetica', monospace;
+    border-radius: 10px;
+  }
+
+  .candidate-reg-box {
+    background-color: rgba(255,255,255,0.4);
+    padding:1% 3% 1% 3%;
+    margin:5% 5% 3% 5%;
+    margin-right: 5%;
+    color: #343a40;
+    
+    flex: 1;
     font-weight: bold;
     font-size:20px;
     font-family: 'Helvetica', monospace;
@@ -12,10 +27,19 @@
 
 .voter-reg-title-box {
     display: flex;
-    align-items: center;
     justify-content: center;
     font-weight: bold;
     color: #343a40;
+    margin-top: 5%;
+}
+
+.candidate-reg-title-box {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: #343a40;
+    margin-top: 5%;
+    /* margin-bottom: 4%; */
 }
 
 .voter-reg-title {
@@ -24,7 +48,13 @@
     margin: 0 0 15px 0;
 }
 
-/* .form-control:focus {
-    border-color:#B39DDB;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgb(179, 157, 219, 1);
-} */
+.candidate-reg-title {
+    font-weight: bold;
+    color: black;
+    margin: 0 0 15px 0;
+}
+
+.entire, .ticket, .symbol{
+    display: flex;
+    flex-direction: row;
+}

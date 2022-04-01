@@ -18,10 +18,10 @@ const Homepage = (props) => {
         e.preventDefault();
         const authenticated = await props.Web3States.contractInst.methods.authenticateVoter(props.Web3States.accounts[0]).call();
         if(authenticated) {
-            props.callback_voter_log();
+            props.callback_vote_win();
         }
         else {
-            alert("User isn't registered, please register as Voter or Candidate!");
+            props.callback_voter_log();
         }
     }
 
@@ -29,7 +29,8 @@ const Homepage = (props) => {
         e.preventDefault();
         const authenticated = await props.Web3States.contractInst.methods.authenticateAdmin(props.Web3States.accounts[0]).call();
         if(authenticated) {
-            props.callback_admin_log();
+            // props.callback_admin_log();
+            props.callback_otp_win();
         }
         else {
             alert("User isn't registered, please ask ECI official to register you!");

@@ -114,9 +114,17 @@ contract BlockVote{
     /* Admin Functions END. */
 
     /* Voter Functions START. */
-    
+    uint addVoterState;     // 0: not added, 1: added successfully, 2: already exists
+    function resetAddVoterState() private {
+        addVoterState = 0;
+    }
+    function getAddVoterState() public view returns(uint) {
+        return addVoterState;
+    }
     function addVoter(string memory _name, string memory _mobileNo, string memory _homeAddress,
      string memory _aadharCardNo, string memory _voterId, string memory _walletKey) public {
+        resetAddVoterState();
+         
         Voter memory newVoter = Voter({
                     name:_name, 
                     mobileNo:_mobileNo,
@@ -126,14 +134,21 @@ contract BlockVote{
                     walletKey:_walletKey,
                     isVoted:false
         });
+        
         if(!isVoterRegistered(newVoter)) {
             Voters.push(newVoter);
-            map_voterid_details[_walletKey] = newVoter;
+            map_voterid_details[_voterId] = newVoter;
             map_walletKey_voterid[_walletKey] = _voterId;
+            addVoterState = 1;
+        }
+        else {
+            addVoterState = 2;
         }
         
     }
-
+    function getAllVoters(string memory _walletKey) public returns(string memory) {
+        return map_walletKey_voterid[_walletKey];
+    }
     function hasVoted(string memory _voterid) public view returns(bool){
         return map_voterid_details[_voterid].isVoted;
     }
@@ -168,6 +183,7 @@ contract BlockVote{
     /* Voter Functions END. */
     
     /* Candidate Functions START. */
+    uint addCandidateState; // 0: not added, 1: successfully added, 2: already exists
     function addCandidate(string memory _name, string memory _mobileNo, string memory _homeAddress,
      string memory _aadharCardNo, string memory _voterId, string memory _walletKey, string memory _politicalParty, string memory _symbolUrl) public {
         Candidate memory newCandidate = Candidate({
@@ -186,6 +202,10 @@ contract BlockVote{
             candidatesMap[_walletKey] = newCandidate;
             addVoter( _name, _mobileNo,  _homeAddress,
                 _aadharCardNo, _voterId,  _walletKey);
+            addCandidateState = 1;
+        }
+        else {
+            addCandidateState = 2;
         }   
     }
 

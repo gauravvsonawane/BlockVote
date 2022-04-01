@@ -14,6 +14,7 @@ import AdminLogin from './components/AdminLogin'
 import Adminreg from './components/AdminReg'
 import Results from './components/Results'
 import OTPWin from './components/OTPWin'
+import Votewindow from './components/Votewindow'
 import BlockVote from "./contracts/BlockVote.json";
 import { getDatabase, ref, child, get } from "firebase/database";
 
@@ -80,6 +81,7 @@ const [components, setComponents] = useState({
   "results" : false, 
   "nav-bar2" : false,
   "otp-win" : false,
+  "vote-win" : false
 })
 
 const resetComponents = () => {
@@ -93,7 +95,8 @@ const resetComponents = () => {
     "eci-login" : false,
     "home-page" : false,
     "nav-bar2" : false,
-    "otp-win" :false
+    "otp-win" :false, 
+    "vote-win" : false
   });
 };
 
@@ -150,6 +153,24 @@ const VoterRegCallBack = () => {
   })
 }
 
+const VoteWindowCallBack = () => {
+  resetComponents();
+  setComponents({
+    "nav-bar":true, 
+    "vote-win" : true,
+    "footer" : true
+  })
+}
+
+const OTPWinCallBack = () => {
+  resetComponents();
+  setComponents({
+    "otp-win":true,  
+    "nav-bar" : true,
+    "footer" : true}
+  );
+}
+
 const SwitchElectionStatus = () => {
   setElectionStatus(!electionStatus);
 }
@@ -185,12 +206,18 @@ const SwitchElectionStatus = () => {
                                     callback_eci={ECIcallback} 
                                     callback_admin_log={AdminLogCallback}
                                     callback_voter_log={VoterRegCallBack}
+                                    callback_vote_win={VoteWindowCallBack}
+                                    callback_otp_win={OTPWinCallBack}
                                     Web3States={Web3States}
                                     />}
       {components["results"] && <Results/>}
-      {components["voter-reg"] && <VoterReg />}
+      {components["voter-reg"] && <VoterReg Web3States={Web3States}
+                                            callback_voter_log={VoterRegCallBack}
+                                            callback_vote_win={VoteWindowCallBack}
+                                            />}
       {components["eci-login"] && <EciLogin Web3States={Web3States}/>}
-      
+      {components["vote-win"] && <Votewindow/>}
+      {components["otp-win"] && <OTPWin/>}
     </div>
 
   )
