@@ -1,11 +1,11 @@
 import React from 'react';
+import useState from 'react';
 import '../css/Homepage.css';
 import '../css/OTPWin.css';
 import {getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
 const OTPWin = (props) => {
-
-
+    const[verfication, setVerfication] = useState(false);
     const setUpRecaptcha = () => {
         const auth = getAuth();
         window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
@@ -20,7 +20,7 @@ const OTPWin = (props) => {
     const onSignInSubmit = (event) => {
         event.preventDefault();
         setUpRecaptcha();
-        const phoneNumber = "+91" + "mobile number";
+        const phoneNumber = "+91" + props.mobile;
         console.log(phoneNumber);
         const appVerifier = window.recaptchaVerifier;
 
@@ -35,6 +35,7 @@ const OTPWin = (props) => {
             // User signed in successfully.
             const user = result.user;
             console.log("User is signed in");
+            setVerfication(true);
             // ...
             }).catch((error) => {
             // User couldn't sign in (bad verification code?)
@@ -49,6 +50,7 @@ const OTPWin = (props) => {
     
     return (
         <div>
+            <h1>{props.mobile}</h1>
             <div className="home-info">
             <h4 className="d-flex justify-content-center fw-bold">
                 You have been sent an OTP on your registered mobile number. Please enter it!

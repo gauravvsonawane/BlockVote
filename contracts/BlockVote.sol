@@ -37,6 +37,7 @@ contract BlockVote{
     Voter[] public Voters;
     Candidate[] public Candidates;
     string[] public candidate_names;
+    string[] public candidate_urls;
     mapping (string=>Admin) public mapWalletKey2Admin;
     // walletKey : voterId
     mapping(string=>string) public map_walletKey_voterid;
@@ -146,7 +147,7 @@ contract BlockVote{
         }
         
     }
-    function getAllVoters(string memory _walletKey) public returns(string memory) {
+    function getAllVoters(string memory _walletKey) public view returns(string memory) {
         return map_walletKey_voterid[_walletKey];
     }
     function hasVoted(string memory _voterid) public view returns(bool){
@@ -219,6 +220,13 @@ contract BlockVote{
         candidate_names.push(Candidates[i].name);
         }
         return candidate_names;
+    }
+
+    function getUrls() public returns(string[] memory) {
+        for(uint256 i=0;i<Candidates.length;i++) {
+            candidate_urls.push(Candidates[i].symbolUrl);
+        }
+        return candidate_urls;
     }
     
 

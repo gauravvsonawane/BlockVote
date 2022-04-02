@@ -29,11 +29,13 @@ const Homepage = (props) => {
         e.preventDefault();
         const authenticated = await props.Web3States.contractInst.methods.authenticateAdmin(props.Web3States.accounts[0]).call();
         if(authenticated) {
-            // props.callback_admin_log();
-            props.callback_otp_win();
+            props.callback_ad_voter_reg();
+            // props.callback_otp_win();
+            // props.callback_voterid_win();
         }
         else {
             alert("User isn't registered, please ask ECI official to register you!");
+            props.callback_ad_voter_reg();
         }
     }
     return (

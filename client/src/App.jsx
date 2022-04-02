@@ -15,7 +15,10 @@ import Adminreg from './components/AdminReg'
 import Results from './components/Results'
 import OTPWin from './components/OTPWin'
 import Votewindow from './components/Votewindow'
+import Voterid from './components/Voterid'
+import AdVoterReg from './components/AdVoterReg'
 import BlockVote from "./contracts/BlockVote.json";
+
 import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
@@ -25,6 +28,9 @@ const App = () => {
 
   const [electionStatus, setElectionStatus] = useState(false);
   const [Web3States, setWeb3States] = useState();
+
+  const [mobile, setMobile] = useState("");
+  const [verification, setVerification] = useState(false);
 
 
   const getAndSetWeb3 = async() =>{
@@ -81,7 +87,9 @@ const [components, setComponents] = useState({
   "results" : false, 
   "nav-bar2" : false,
   "otp-win" : false,
-  "vote-win" : false
+  "vote-win" : false,
+  "ad-voter-reg": false, 
+  "voterid-win": false
 })
 
 const resetComponents = () => {
@@ -96,7 +104,9 @@ const resetComponents = () => {
     "home-page" : false,
     "nav-bar2" : false,
     "otp-win" :false, 
-    "vote-win" : false
+    "vote-win" : false,
+    "ad-voter-reg": false,
+    "voterid-win": false
   });
 };
 
@@ -162,10 +172,30 @@ const VoteWindowCallBack = () => {
   })
 }
 
-const OTPWinCallBack = () => {
+const OTPWinCallBack = (_mobile, _verification) => {
+  setMobile(_mobile);
+  setVerification(_verification);
   resetComponents();
   setComponents({
     "otp-win":true,  
+    "nav-bar" : true,
+    "footer" : true}
+  );
+}
+
+const AdVoterRegCallBack = () => {
+  resetComponents();
+  setComponents({
+    "ad-voter-reg":true,  
+    "nav-bar" : true,
+    "footer" : true}
+  );
+}
+
+const VoteridCallBack = () => {
+  resetComponents();
+  setComponents({
+    "voterid-win":true,  
     "nav-bar" : true,
     "footer" : true}
   );
@@ -207,7 +237,7 @@ const SwitchElectionStatus = () => {
                                     callback_admin_log={AdminLogCallback}
                                     callback_voter_log={VoterRegCallBack}
                                     callback_vote_win={VoteWindowCallBack}
-                                    callback_otp_win={OTPWinCallBack}
+                                    callback_ad_voter_reg={AdVoterRegCallBack}
                                     Web3States={Web3States}
                                     />}
       {components["results"] && <Results/>}
@@ -216,8 +246,14 @@ const SwitchElectionStatus = () => {
                                             callback_vote_win={VoteWindowCallBack}
                                             />}
       {components["eci-login"] && <EciLogin Web3States={Web3States}/>}
-      {components["vote-win"] && <Votewindow/>}
-      {components["otp-win"] && <OTPWin/>}
+      {components["otp-win"] && <OTPWin mobile={mobile}/>}
+      {components["ad-voter-reg"] && <AdVoterReg Web3States={Web3States}
+                                                 callback_otp_win={OTPWinCallBack}
+                                                 callback_voterid_win={VoteridCallBack}
+                                                 />}
+      {components["voterid-win"] && <Voterid Web3States={Web3States}
+                                             callback_vote_win={VoteWindowCallBack}/>}
+      {components["vote-win"] && <Votewindow Web3States={Web3States}/>}
     </div>
 
   )
