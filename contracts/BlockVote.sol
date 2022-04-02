@@ -229,6 +229,7 @@ contract BlockVote{
         return candidate_urls;
     }
     
+    
 
     /* Candidate Functions END. */
 
@@ -251,8 +252,15 @@ contract BlockVote{
     /* Results Functions END */
 
     /* Voting Functions START */ 
-    
+    uint voteState = 0; //0:not voted, 1: successfully voted, 2:already voted
+    function setVoteState() public {
+        voteState = 0;
+    }
+    function getVoteState() public view returns(uint) {
+        return voteState;
+    }
     function vote(string memory _voterId, string memory _walletKey, uint256 choice) public returns(string memory) {
+        setVoteState();
         if(areStringsEqual(map_voterid_details[_voterId].walletKey, _walletKey)) {
             if(!map_voterid_details[_voterId].isVoted) {
                 Candidates[choice].votes++;
@@ -265,8 +273,11 @@ contract BlockVote{
                         break;
                     }
                 }
+                voteState = 1;
                 return "Vote casted successfully!";
+                
             }
+            voteState = 2;
             return "Voter has already voted!";
         }
         return "Could not cast a vote, Voter not registered! (try changing account on metamask)";
