@@ -5,7 +5,8 @@ import {getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 
 const Voterid = (props) => {
 
-    let voterid = null;
+    const[voterid, setVoterid] = useState("");
+    let _voterid = null;
     let mobile="";
     const [verification, setVerification] = useState(false);
 
@@ -13,7 +14,8 @@ const Voterid = (props) => {
         mobile = val;
     }
     const setid = (e)=>{
-        voterid = e.target.value;
+        _voterid = e.target.value;
+        setVoterid(_voterid);
     }
 
     const getMobileNumber = async(event)=>{
@@ -66,10 +68,11 @@ const Voterid = (props) => {
     }
 
     useEffect(()=> {
-        if(verification) {
-           props.callback_vote_win();
+        if(verification && voterid) {
+            console.log(voterid);
+           props.callback_ad_vote_win(voterid);
         }
-    },[verification])
+    },[verification, voterid])
 
     return (
         <div>

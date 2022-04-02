@@ -61,7 +61,6 @@ const AdVoterReg = (props) => {
     }
 
     const handleChangeName = (event) => {
-        alert(event.target.value);
         setName(event.target.value);
     }
     const handleChangeMob = (event) => {
@@ -138,18 +137,8 @@ const AdVoterReg = (props) => {
     const handleChangeTicket = (event) => {
         setTicket(event.target.value);
     }
-    const getLink = (url) => {
-        let src = "";
-        let f = url.search("/d/")+3;
-        while(url[f]!=='/' && f<url.length){
-            src+=url[f++];
-        }
-        return ("https://drive.google.com/uc?id="+src);
-    }
     const handleChangeSymbol = (event) => {
-        // setSymbol(event.target.value);
-        alert(getLink(event.target.value));
-        setSymbol(getLink(event.target.value));
+        setSymbol(event.target.value);
     }
 
     // useEffect(() => {

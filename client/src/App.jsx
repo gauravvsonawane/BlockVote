@@ -17,6 +17,7 @@ import OTPWin from './components/OTPWin'
 import Votewindow from './components/Votewindow'
 import Voterid from './components/Voterid'
 import AdVoterReg from './components/AdVoterReg'
+import AdVoteWindow from './components/AdVoteWindow'
 import BlockVote from "./contracts/BlockVote.json";
 
 import { getDatabase, ref, child, get } from "firebase/database";
@@ -28,11 +29,14 @@ const App = () => {
 
   const [electionStatus, setElectionStatus] = useState(false);
   const [Web3States, setWeb3States] = useState();
-
+  
   const [mobile, setMobile] = useState("");
   const [verification, setVerification] = useState(false);
 
-
+  const [voterid, setVoterid] = useState("");
+  // const setVoterid = (_voterid) => {
+  //   voterid = _voterid;
+  // }
   const getAndSetWeb3 = async() =>{
 
     try {
@@ -89,6 +93,7 @@ const [components, setComponents] = useState({
   "otp-win" : false,
   "vote-win" : false,
   "ad-voter-reg": false, 
+  "ad-vote-win": false, 
   "voterid-win": false
 })
 
@@ -106,6 +111,7 @@ const resetComponents = () => {
     "otp-win" :false, 
     "vote-win" : false,
     "ad-voter-reg": false,
+    "ad-vote-win": false,
     "voterid-win": false
   });
 };
@@ -191,6 +197,16 @@ const AdVoterRegCallBack = () => {
     "footer" : true}
   );
 }
+const AdVoteWindowCallBack = (_voterid) => {
+  setVoterid(_voterid);
+  console.log("hello", _voterid);
+  resetComponents();
+  setComponents({
+    "ad-vote-win":true,  
+    "nav-bar" : true,
+    "footer" : true}
+  );
+}
 
 const VoteridCallBack = () => {
   resetComponents();
@@ -252,8 +268,10 @@ const SwitchElectionStatus = () => {
                                                  callback_voterid_win={VoteridCallBack}
                                                  />}
       {components["voterid-win"] && <Voterid Web3States={Web3States}
-                                             callback_vote_win={VoteWindowCallBack}/>}
+                                             callback_ad_vote_win={AdVoteWindowCallBack}/>}
       {components["vote-win"] && <Votewindow Web3States={Web3States}/>}
+      {components["ad-vote-win"] && <AdVoteWindow Web3States={Web3States}
+                                                  voterid={voterid}/>}
     </div>
 
   )
