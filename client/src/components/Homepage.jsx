@@ -42,7 +42,7 @@ const Homepage = (props) => {
         <div>
             <div className="home-info">
                 <h2 className="d-flex justify-content-center fw-bold mt-3">Welcome to BlockVote!</h2>
-                <p className="d-flex fw-bold my-3 mx-5" style={{textAlign:"justify"}}>&emsp; BlockVote is a safe, secure, modern, online medium to cast your vote. You can  vote from
+                <p className="d-flex fw-bold my-3 mx-3" style={{textAlign:"justify"}}>BlockVote is a secure, modern, online medium to cast your vote. You can  vote from
                     the comfort of your home with a very few clicks and you can do your duty to your country!
                     Become a part of the revolution being sparked by cutting-edge Blockchain technology.  
                     In case you find any difficulty in the process, you can always visit your nearest 

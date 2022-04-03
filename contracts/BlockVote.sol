@@ -282,8 +282,12 @@ contract BlockVote{
         }
         return "Could not cast a vote, Voter not registered! (try changing account on metamask)";
     }
-
+    uint voteThroughAdminState = 0; // 0: not voted, 1:successfully voted, 2:already voted
+    function getVoteThroughAdminState() public view returns(uint) {
+        return voteThroughAdminState;
+    }
     function voteThroughAdmin(string memory _voterId, uint256 choice) public returns(string memory) {
+        voteThroughAdminState = 0;
         if(!map_voterid_details[_voterId].isVoted) {
             Candidates[choice].votes++;
             string memory temp_walletKey = Candidates[choice].walletKey;
@@ -295,8 +299,10 @@ contract BlockVote{
                     break;
                 }
             }
+            voteThroughAdminState = 1;
             return "Vote casted successfully!";
         }
+        voteThroughAdminState = 2;
         return "Voter has already voted!";
     }
     /* Voting Functions END */ 

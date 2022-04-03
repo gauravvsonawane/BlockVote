@@ -45,19 +45,21 @@ const AdVoteWindow = (props) => {
     let candidates_array = await props.Web3States.contractInst.methods.getCandidates().call();
     let choice = (candidates_array.indexOf(selected_candidate));
     try{
-    //   console.log(await props.Web3States.contractInst.methods.voteThroughAdmin(props.voterid, choice)
-    //   .send({ from: props.Web3States.accounts[0] }));
-    alert(props.voterid);
+      console.log(await props.Web3States.contractInst.methods.voteThroughAdmin(props.voterid, choice)
+      .send({ from: props.Web3States.accounts[0] }));
+    // alert(props.voterid);
     }
     catch(error){
         alert(error.message);
         return false;
     }
-    const state = await props.Web3States.contractInst.methods.getVoteState().call();
+    const state = await props.Web3States.contractInst.methods.getVoteThroughAdminState().call();
+    console.log("state", state);
     if(state==1) {
       alert("Vote Casted Successfully");
     }
     else if(state==2) {
+      alert("Voter has already voted!");
     }
   };
   return (
