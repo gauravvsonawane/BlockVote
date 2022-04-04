@@ -58,6 +58,10 @@ contract BlockVote{
     function endVoting() public {
         votingPhase = "Result";
     }
+    
+    function getElectionStatus() public view returns(string memory) {
+        return votingPhase;
+    }
 
     // Set addAdminState = 0.
     function resetAddAdminState() private{

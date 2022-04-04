@@ -59,6 +59,7 @@ const VoteWindow = (props) => {
       alert("Vote Casted Successfully");
     }
     else if(state==2) {
+      alert("Voter has already voted");
     }
   };
   return (

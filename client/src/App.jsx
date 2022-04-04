@@ -90,6 +90,7 @@ const [components, setComponents] = useState({
   "home-page" : true,
   "results" : false, 
   "nav-bar2" : false,
+  "nav-bar3" : false,
   "otp-win" : false,
   "vote-win" : false,
   "ad-voter-reg": false, 
@@ -108,6 +109,7 @@ const resetComponents = () => {
     "eci-login" : false,
     "home-page" : false,
     "nav-bar2" : false,
+    "nav-bar3" : false,
     "otp-win" :false, 
     "vote-win" : false,
     "ad-voter-reg": false,
@@ -121,7 +123,7 @@ const ECIcallback = () => {
   resetComponents();
   setComponents({
     "eci-login":true,  
-    "nav-bar" : true,
+    "nav-bar2" : true,
     "footer" : true}
   );
 }
@@ -217,8 +219,8 @@ const VoteridCallBack = () => {
   );
 }
 
-const SwitchElectionStatus = () => {
-  setElectionStatus(!electionStatus);
+const SwitchElectionStatus = (status) => {
+  setElectionStatus(status);
 }
 
   return (
@@ -226,6 +228,10 @@ const SwitchElectionStatus = () => {
       {components["nav-bar"] && <Navbar
       callback_results={ResultsCallBack}
       />}
+      {components["nav-bar2"] && <Navbar2 Web3States={Web3States}
+                                          status = {electionStatus}
+                                          callback_SwitchElectionStatus = {SwitchElectionStatus}/>}
+      {components["nav-bar3"] && <Navbar3/>}
 
       {/* {components["nav-bar2"] && <Navbar3 
       // callback_switchElection={SwitchElectionStatus} 
@@ -237,7 +243,7 @@ const SwitchElectionStatus = () => {
       {
         <div className="App">
           {/* FIREBASE */}
-          <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`}}>
+          <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`, marginBottom:`10px`}}>
             Firebase database status : {dbStatus}<br/>
             Value : {dbValue}
           </div>
@@ -256,7 +262,7 @@ const SwitchElectionStatus = () => {
                                     callback_ad_voter_reg={AdVoterRegCallBack}
                                     Web3States={Web3States}
                                     />}
-      {components["results"] && <Results/>}
+      {components["results"] && <Results Web3States={Web3States}/>}
       {components["voter-reg"] && <VoterReg Web3States={Web3States}
                                             callback_voter_log={VoterRegCallBack}
                                             callback_vote_win={VoteWindowCallBack}
@@ -270,6 +276,7 @@ const SwitchElectionStatus = () => {
       {components["voterid-win"] && <Voterid Web3States={Web3States}
                                              callback_ad_vote_win={AdVoteWindowCallBack}/>}
       {components["vote-win"] && <Votewindow Web3States={Web3States}/>}
+      
       {components["ad-vote-win"] && <AdVoteWindow Web3States={Web3States}
                                                   voterid={voterid}/>}
     </div>
