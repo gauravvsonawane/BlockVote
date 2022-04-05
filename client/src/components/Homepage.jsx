@@ -2,7 +2,6 @@ import React from 'react';
 import '../css/Homepage.css';
 
 const Homepage = (props) => {
-
     const ECILogin_click = async (e) => {
         e.preventDefault();
         const authenticated = await props.Web3States.contractInst.methods.authenticateECI(props.Web3States.accounts[0]).call();
@@ -16,6 +15,11 @@ const Homepage = (props) => {
 
     const VoterLogin_click = async(e) => {
         e.preventDefault();
+        const electionStatus = await props.Web3States.contractInst.methods.getElectionStatus().call();
+        if(electionStatus=="Result") {
+            alert("Voting process completed, please see Results!");
+            return;
+        }
         const authenticated = await props.Web3States.contractInst.methods.authenticateVoter(props.Web3States.accounts[0]).call();
         if(authenticated) {
             props.callback_vote_win();
@@ -27,6 +31,11 @@ const Homepage = (props) => {
 
     const AdminLogin_click = async(e) => {
         e.preventDefault();
+        const electionStatus = await props.Web3States.contractInst.methods.getElectionStatus().call();
+        if(electionStatus=="Result") {
+            alert("Voting process completed, please see Results!");
+            return;
+        }
         const authenticated = await props.Web3States.contractInst.methods.authenticateAdmin(props.Web3States.accounts[0]).call();
         if(authenticated) {
             props.callback_ad_voter_reg();

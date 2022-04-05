@@ -32,6 +32,7 @@ struct Candidate {
 contract BlockVote{
     /* Global Variables START. */
     Admin public ECI = Admin({name:"ECI_Official", mobileNo:"1234567890", walletKey:"0xB663Fde35c596E597A5660de6728b4bC302cb677"});
+    Candidate public NOTA = Candidate({name:"NOTA", mobileNo:"", homeAddress:"", aadharCardNo:"", voterId:"NOTA", walletKey:"NOTA", politicalParty:"NOTA", votes:0, symbolUrl:"https://www.oneindia.com/img/2016/03/nota-04-1457086162.jpg"});
     string voterId_main="";
     Admin[] public Admins;
     Voter[] public Voters;
@@ -191,6 +192,7 @@ contract BlockVote{
     uint addCandidateState; // 0: not added, 1: successfully added, 2: already exists
     function addCandidate(string memory _name, string memory _mobileNo, string memory _homeAddress,
      string memory _aadharCardNo, string memory _voterId, string memory _walletKey, string memory _politicalParty, string memory _symbolUrl) public {
+        
         Candidate memory newCandidate = Candidate({
                     name:_name, 
                     mobileNo:_mobileNo,
