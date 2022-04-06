@@ -53,6 +53,7 @@ contract BlockVote{
     uint addAdminState;     // 0 -> Not added, 1 -> Added succesfully, 2 -> Admin already exist, 3 -> Invalid ECI.
     
     function startVoting() public {
+        Candidates.push(NOTA);
         votingPhase = "Voting";
     }
 

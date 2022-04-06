@@ -24,8 +24,8 @@ import { getDatabase, ref, child, get } from "firebase/database";
 
 const App = () => {
   
-  const [dbStatus, setDBStatus] = useState("Connecting to Firebase...");
-  const [dbValue, setDBValue] = useState("");
+  // const [dbStatus, setDBStatus] = useState("Connecting to Firebase...");
+  // const [dbValue, setDBValue] = useState("");
 
   const [electionStatus, setElectionStatus] = useState(false);
   const [Web3States, setWeb3States] = useState();
@@ -63,14 +63,14 @@ const App = () => {
     const dbRef = ref(getDatabase());
     get(child(dbRef, `Value`)).then((snapshot) => {
       if (snapshot.exists()) {
-        setDBValue(snapshot.val());
+        console.log("Database Status:" + snapshot.val());
       } else {
-        setDBValue("No data available");
+        console.log("Database Status:" + "No data available");
       }
-      setDBStatus("Connected!");
+      console.log("Database Status:" + "Connected!");
     }).catch((error) => {
       console.error(error);
-      setDBStatus("An error occured..");
+      console.log("Database Status:" + "An error occured!");
     });
   }
 
@@ -241,14 +241,14 @@ const SwitchElectionStatus = (status) => {
       {/*components["otp-win"]&& <OTPWin/>*/}
 
       {
-        <div className="App">
-          {/* FIREBASE */}
-          <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`, marginBottom:`10px`}}>
-            Firebase database status : {dbStatus}<br/>
-            Value : {dbValue}
-          </div>
+        // <div className="App">
+        //   {/* FIREBASE */}
+        //   <div style={{color: `#000`, fontSize:`18px`, background: `rgba(255,255,255,0.75)`, marginBottom:`10px`}}>
+        //     Firebase database status : {dbStatus}<br/>
+        //     Value : {dbValue}
+        //   </div>
             
-        </div>
+        // </div>
       }
       {components["footer"] && <Footer/>}
       {components["admin-login"] && <AdminLogin callback_voter_reg={VoterRegCallBack}/>}

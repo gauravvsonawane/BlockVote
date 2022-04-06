@@ -30,6 +30,10 @@ const AdVoterReg = (props) => {
 
     const onSignInSubmit = (event) => {
         event.preventDefault();
+        if(!mobileValidator()) {
+            alert("Enter valid mobile number!");
+            return;
+        }
         setUpRecaptcha();
         const phoneNumber = "+91" + mob;
         console.log(phoneNumber);
@@ -78,9 +82,34 @@ const AdVoterReg = (props) => {
     const handleChangeParty = (event) => {
         setParty(event.target.value);
     }
+
+    const validator = () => {
+        if(mob.length!=10) {
+            alert("Enter valid mobile number!")
+            return false;
+        }
+        if(aadhar.length!=12) {
+            alert("Enter valid aadhar number!")
+            return false;
+        }
+        if(voter.length!=10) {
+            alert("Enter valid voter id number!")
+            return false;
+        }
+        return true;
+    }
+
+    const mobileValidator = () => {
+        if(mob.length!=10) {
+            alert("Enter valid mobile number!");
+            return false;
+        }
+        return true;
+    }
+
     const onSubmitVoter = async (e) => {
         e.preventDefault();
-            if(verification) {
+            if(verification && validator()) {
                 try{
                     await props.Web3States.contractInst.methods.addVoter(name, mob, address, aadhar, voter, props.Web3States.accounts[0])
                     .send({ from: props.Web3States.accounts[0] });
@@ -102,23 +131,24 @@ const AdVoterReg = (props) => {
 
     const onSubmitCandidate = async (e) => {
         e.preventDefault();
-        try{
-            await props.Web3States.contractInst.methods.addCandidate(name, mob, address, aadhar, voter, props.Web3States.accounts[0], party, symbol)
-            .send({ from: props.Web3States.accounts[0] });
-        }
-        catch(error){
-            alert(error.message);
-            return false;
-        }
-        const state = await props.Web3States.contractInst.methods.getAddVoterState().call();
-        if(state == 2){
-            alert("Candidate already exists!");
-            return false;
-        }
-        else if(state==1) {
-            alert("Candidate added succesfully!");
-        }
-        
+        if(verification && validator()) {
+            try{
+                await props.Web3States.contractInst.methods.addCandidate(name, mob, address, aadhar, voter, props.Web3States.accounts[0], party, symbol)
+                .send({ from: props.Web3States.accounts[0] });
+            }
+            catch(error){
+                alert(error.message);
+                return false;
+            }
+            const state = await props.Web3States.contractInst.methods.getAddVoterState().call();
+            if(state == 2){
+                alert("Candidate already exists!");
+                return false;
+            }
+            else if(state==1) {
+                alert("Candidate added succesfully!");
+            }
+        }  
     }
 
     const onVotePoll = async(e) => {

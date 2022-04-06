@@ -21,11 +21,25 @@ const Homepage = (props) => {
             return;
         }
         const authenticated = await props.Web3States.contractInst.methods.authenticateVoter(props.Web3States.accounts[0]).call();
+        const phase = await props.Web3States.contractInst.methods.getElectionStatus().call();
+        
         if(authenticated) {
-            props.callback_vote_win();
+            
+            if(phase=="Voting") {
+                props.callback_vote_win();
+            }
+            else {
+                alert("You are already registered!");
+            }
         }
         else {
-            props.callback_voter_log();
+            if(phase=="preVoting") {
+                props.callback_voter_log();
+            }
+            else {
+                alert("No longer accepting registrations!");
+            }
+            
         }
     }
 
@@ -51,14 +65,16 @@ const Homepage = (props) => {
         <div>
             <div className="home-info">
                 <h2 className="d-flex justify-content-center fw-bold mt-3">Welcome to BlockVote!</h2>
-                <p className="d-flex fw-bold my-3 mx-3" style={{textAlign:"justify"}}>BlockVote is a secure, modern, online medium to cast your vote. You can  vote from
-                    the comfort of your home with a very few clicks and you can do your duty to your country!
-                    Become a part of the revolution being sparked by cutting-edge Blockchain technology.  
-                    In case you find any difficulty in the process, you can always visit your nearest 
-                    administration center and complete the same process securely. As long as you  are a 
-                    legitimate voter and citizen of India, you can cast your vote from literally
-                    anywhere around the Globe!
-                </p>
+                <div className="d-flex fw-bold my-3 mx-3" >
+                    <p style={{textAlign:"justify"}}>BlockVote is a secure, modern, online medium to cast your vote. You can  vote from
+                        the comfort of your home with a very few clicks and you can do your duty to your country!
+                        Become a part of the revolution being sparked by cutting-edge <span style={{color:"#3F51B5"}}>Blockchain technology</span>.  
+                        In case you find any difficulty in the process, you can always visit your nearest 
+                        administration center and complete the same process securely. As long as you  are a 
+                        legitimate voter and citizen of India, you can cast your vote from literally
+                        anywhere around the Globe!
+                    </p>
+                </div>
 
                 <div className="d-flex justify-content-center">
                 <button type="button" className="btn btn-dark mx-4 my-4" onClick={ECILogin_click}>ECI Login</button>

@@ -114,7 +114,7 @@ var datapoints = {};
     <>
     
       <div className="winner-container"></div>
-      <div className="container">
+      <div className="container container-marg">
          
         {options.length != 0?<CanvasJSChart
           options={options}

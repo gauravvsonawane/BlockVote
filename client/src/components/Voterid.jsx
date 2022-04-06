@@ -20,9 +20,12 @@ const Voterid = (props) => {
 
     const getMobileNumber = async(event)=>{
         event.preventDefault();
-        const _mobile = await props.Web3States.contractInst.methods.getVoterMobileNumber(voterid).call();
-        setMobile(_mobile);
-        alert(mobile);
+        if(voteridValidator()) {
+            const _mobile = await props.Web3States.contractInst.methods.getVoterMobileNumber(voterid).call();
+            setMobile(_mobile);
+            alert(mobile);
+        }
+        
     }
 
     const setUpRecaptcha = () => {
@@ -34,6 +37,13 @@ const Voterid = (props) => {
             onSignInSubmit();
         }
         }, auth);
+    }
+    const voteridValidator = () => {
+        if(voterid.length!=10) {
+            alert("Enter valid mobile number!");
+            return false;
+        }
+        return true;
     }
 
     const onSignInSubmit = (event) => {
@@ -67,10 +77,16 @@ const Voterid = (props) => {
             });
     }
 
-    useEffect(()=> {
+    useEffect(async()=> {
         if(verification && voterid) {
             console.log(voterid);
-           props.callback_ad_vote_win(voterid);
+            const phase = await props.Web3States.contractInst.methods.getElectionStatus().call();
+            if(phase=="Voting") {
+                props.callback_ad_vote_win(voterid);
+            }
+            else if(phase=="preVoting") {
+                alert("Voting has not started yet!");
+            }
         }
     },[verification, voterid])
 

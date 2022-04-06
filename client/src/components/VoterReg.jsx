@@ -32,55 +32,80 @@ const VoterReg = (props) => {
         setParty(event.target.value);
     }
 
-    const onSubmitVoter = async (e) => {
-        e.preventDefault();
-        try{
-            await props.Web3States.contractInst.methods.addVoter(name, mob, address, aadhar, voter, props.Web3States.accounts[0])
-            .send({ from: props.Web3States.accounts[0] });
-        }
-        catch(error){
-            alert(error.message);
+
+    const validator = () => {
+        if(mob.length!=10) {
+            alert("Enter valid mobile number!")
             return false;
         }
-        const state = await props.Web3States.contractInst.methods.getAddVoterState().call();
+        if(aadhar.length!=12) {
+            alert("Enter valid aadhar number!")
+            return false;
+        }
+        if(voter.length!=10) {
+            alert("Enter valid voter id number!")
+            return false;
+        }
+        return true;
+    }
+    const onSubmitVoter = async (e) => {
+        e.preventDefault();
+        if(validator()) {
+            try{
+                await props.Web3States.contractInst.methods.addVoter(name, mob, address, aadhar, voter, props.Web3States.accounts[0])
+                .send({ from: props.Web3States.accounts[0] });
+            }
+            catch(error){
+                alert(error.message);
+                return false;
+            }
+            const state = await props.Web3States.contractInst.methods.getAddVoterState().call();
             if(state == 2){
                 alert("Voter already exists!");
                 return false;
             }
             else if(state==1) {
                 alert("Voter added succesfully!");
+                window.location.reload();
             }
+        }
+        
     }
 
     const onSubmitCandidate = async (e) => {
         e.preventDefault();
-        try{
-            await props.Web3States.contractInst.methods.addCandidate(name, mob, address, aadhar, voter, props.Web3States.accounts[0], party, symbol)
-            .send({ from: props.Web3States.accounts[0] });
+        if(validator()) {
+            try{
+                await props.Web3States.contractInst.methods.addCandidate(name, mob, address, aadhar, voter, props.Web3States.accounts[0], party, symbol)
+                .send({ from: props.Web3States.accounts[0] });
+            }
+            catch(error){
+                alert(error.message);
+                return false;
+            }
+            const state = await props.Web3States.contractInst.methods.getAddVoterState().call();
+            if(state == 2){
+                alert("Candidate already exists!");
+                return false;
+            }
+            else if(state==1) {
+                alert("Candidate added succesfully!");
+                window.location.reload();
+            }
         }
-        catch(error){
-            alert(error.message);
-            return false;
-        }
-        const state = await props.Web3States.contractInst.methods.getAddVoterState().call();
-        if(state == 2){
-            alert("Candidate already exists!");
-            return false;
-        }
-        else if(state==1) {
-            alert("Candidate added succesfully!");
-        }
+        
         
     }
 
     const onVotePoll = async(e) => {
         e.preventDefault();
-        const authenticated = await props.Web3States.contractInst.methods.authenticateVoter(props.Web3States.accounts[0]).call();
+        const authenticated = await props.Web3States.contractInst.methods.authenticateVoter(props.Web3States.accounts[0]).call();        
         if(authenticated) {
-            props.callback_vote_win();
+            alert("Voting not started yet!");
+            // props.callback_vote_win();
         }
         else {
-            alert(props.Web3States.accounts[0]);
+            alert("Voter is not registered!");
             props.callback_voter_log();
         }
     }
@@ -114,7 +139,7 @@ const VoterReg = (props) => {
                                 <input type="text" className="form-control" id="vr-address" placeholder="Enter Address" value={address} onChange={handleChangeAddress}/>
                             </div>
                             <div className="mb-3">
-                                <input type="text" className="form-control" id="vr-aadhar" placeholder="Enter Aadhar Number" value={aadhar} onChange={handleChangeAadhar}/>
+                                <input type="number" className="form-control" id="vr-aadhar" placeholder="Enter Aadhar Number" value={aadhar} onChange={handleChangeAadhar}/>
                             </div>
                             <div className="mb-3">
                                 <input type="text" className="form-control" id="vr-voterid" placeholder="Enter Voter Id Number" value={voter} onChange={handleChangeVoter}/>
