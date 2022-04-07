@@ -127,6 +127,9 @@ const AdVoterReg = (props) => {
                         alert("Voter added succesfully!");
                     }
             }
+            else if(!verification) {
+                alert("Please click Verify!");
+            } 
     }
 
     const onSubmitCandidate = async (e) => {
@@ -148,7 +151,10 @@ const AdVoterReg = (props) => {
             else if(state==1) {
                 alert("Candidate added succesfully!");
             }
-        }  
+        }
+        else if(!verification) {
+            alert("Please click Verify!");
+        } 
     }
 
     const onVotePoll = async(e) => {

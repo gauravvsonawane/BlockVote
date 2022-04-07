@@ -58,7 +58,7 @@ const Homepage = (props) => {
         }
         else {
             alert("User isn't registered, please ask ECI official to register you!");
-            props.callback_ad_voter_reg();
+            // props.callback_ad_voter_reg();
         }
     }
     return (

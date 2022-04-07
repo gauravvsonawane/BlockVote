@@ -65,7 +65,7 @@ const AdVoteWindow = (props) => {
   return (
     <>
       <div className="vote_container">
-        <div className="vote_text">THrough Admin CANDIDATES</div>
+        <div className="vote_text">CANDIDATES</div>
 
         <div className="vote_input-box">{candidates}</div>
         <div style={{ display: "flex", justifyContent: "center" }}>

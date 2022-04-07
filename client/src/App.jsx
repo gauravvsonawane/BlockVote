@@ -146,7 +146,12 @@ const HomeCallBack = () => {
   })
 }
 
-const ResultsCallBack = () => {
+const ResultsCallBack = async () => {
+  const phase = await Web3States.contractInst.methods.getElectionStatus().call();
+  if(phase!="Result") {
+    alert("Voting isn't completed yet!");
+    return;
+  }
   resetComponents();
   setComponents({
     "results":true, 

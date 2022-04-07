@@ -26,17 +26,6 @@ const Navbar2 = (props) => {
     }
   }
 
-  const retry = async() => {
-    try{
-      await props.Web3States.contractInst.methods.startVoting().send({ from: props.Web3States.accounts[0] });
-      window.location.reload();
-    }
-    catch(error){
-        alert(error.message);
-        return false;
-    }
-  }
-
   useEffect(async () => {
     const status = await props.Web3States.contractInst.methods
       .getElectionStatus()
@@ -91,15 +80,7 @@ const Navbar2 = (props) => {
               End Voting
             </button>
           )}
-          {electionStatus == "Result" && (
-            <button
-              type="button"
-              className="btn btn-outline-light mx-1"
-              onClick={retry}
-            >
-              Start Voting Again!
-            </button>
-          )}
+          
         </div>
       </div>
     </nav>

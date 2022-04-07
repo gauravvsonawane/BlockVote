@@ -40,7 +40,7 @@ const Voterid = (props) => {
     }
     const voteridValidator = () => {
         if(voterid.length!=10) {
-            alert("Enter valid mobile number!");
+            alert("Enter valid voter id!");
             return false;
         }
         return true;
@@ -94,7 +94,7 @@ const Voterid = (props) => {
         <div>
             <div className="voter-reg-box">
                 <div className="voter-reg-title-box">
-                    <h2 className="voter-reg-title">Vote</h2>
+                    <h2 className="voter-reg-title">OTP Verfication</h2>
                 </div>
                 <form>
                     <div className="mb-3 input-margin">
