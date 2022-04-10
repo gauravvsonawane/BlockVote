@@ -159,7 +159,14 @@ const AdVoterReg = (props) => {
 
     const onVotePoll = async(e) => {
         e.preventDefault();
-        props.callback_voterid_win();
+        const phase = await props.Web3States.contractInst.methods.getElectionStatus().call();
+            if(phase=="Voting") {
+                props.callback_voterid_win();
+            }
+            else if(phase=="preVoting") {
+                alert("Voting has not started yet!");
+            }
+        // props.callback_voterid_win();
         // const authenticated = await props.Web3States.contractInst.methods.authenticateVoter(props.Web3States.accounts[0]).call();
         // if(authenticated) {
         //     props.callback_vote_win();
